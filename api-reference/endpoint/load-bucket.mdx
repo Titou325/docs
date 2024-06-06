@@ -1,0 +1,43 @@
+---
+title: 'Load a file to a signedUrl'
+api: 'PUT {signedUrl}/object/upload/sign/{path}'
+---
+#### URL
+
+<ParamField query="token" type="string" initialValue="{token}" required>
+  Used to authenticate the sender
+</ParamField>
+
+#### Headers
+<ParamField header="x-upsert" type="string" initialValue="booleanValueForUpsert" default="booleanValueForUpsert" required>
+  x-upsert
+</ParamField>
+
+<ParamField header="cache-control" type="string" initialValue="max-age=3600" default="max-age=3600" required>
+  cache-control
+</ParamField>
+
+<ParamField header="centent-type" type="string" initialValue="text/plain;charset=UTF-8" default="text/plain;charset=UTF-8" required>
+  Should adjust to body type, i.e. "application/octet-stream" for type Buffer
+</ParamField>
+
+#### Body
+<ParamField header="body" type="string | Buffer" initialValue="" required>
+  THe content of the file to upload
+</ParamField>
+
+#### SignedUrl, Path and token
+
+The signedURL, Path and token are retrieveable in the response of the in [/api/docs/initiate](https://docs.onedoclabs.com/api-reference/endpoint/initiates-a-documents-rendering) query.
+
+
+
+<RequestExample>
+```bash Request
+  curl -X PUT "urlToFS/object/upload/sign/path?token=yourToken" \
+     -H "x-upsert: booleanValueForUpsert" \
+     -H "cache-control: max-age=3600" \
+     -H "content-type: text/plain;charset=UTF-8" \
+     --data-binary "string content"
+```
+</RequestExample>

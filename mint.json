@@ -93,12 +93,14 @@
       "pages": ["introduction", "gettoknowus"]
     },
     {
-      "group": "Quick Start",
-      "pages": ["quickstart/nodejs", "quickstart/nodejs-react"]
+      "group": "API Reference",
+      "pages": [
+        "api-reference"
+      ]
     },
     {
-      "group": "Frameworks",
-      "pages": ["frameworks/react", "frameworks/next", "frameworks/tailwind"]
+      "group": "SDK Reference",
+      "pages": ["quickstart/nodejs"]
     },
     {
       "group": "Ressources",
@@ -114,17 +116,11 @@
       "pages": ["templates/intro"]
     },
     {
-      "group": "SDK Reference",
-      "pages": ["reference/nodejs"]
-    },
-    {
-      "group": "API Reference",
-      "pages": ["api-reference/introduction"]
-    },
-    {
-      "group": "Endpoint Examples",
+      "group": "Endpoints",
       "pages": [
+        "api-reference/introduction",
         "api-reference/endpoint/initiates-a-documents-rendering",
+        "api-reference/endpoint/load-bucket",
         "api-reference/endpoint/generates-a-pdf-from-a-specified-bucket"
       ]
     }

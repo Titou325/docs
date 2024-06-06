@@ -5,7 +5,7 @@ description: "API endpoints for document generation"
 
 ## Welcome
 
-You can fin the open API JSON file below.
+You can find the open API JSON file below.
 
 <Card
   title="Onedoc API endpoints"
@@ -17,7 +17,7 @@ You can fin the open API JSON file below.
 
 ## Authentication
 
-All API endpoints are authenticated using an API key and picked up from the request header.
+All **Onedoc** API endpoints are authenticated using an API key and picked up from the request header.
 
 ```json
 "header": [
@@ -29,15 +29,34 @@ All API endpoints are authenticated using an API key and picked up from the requ
 
 ## Usage
 
+Rendering a PDF with the Onedoc API takes 3 steps:
+
+<Steps>
+  <Step title="Initiate document rendering (Onedoc API)">
+    This step creates a bucket with SignedUrls for each file your document needs to be rendered.
+  </Step>
+  <Step title="Upload your assets to their respective buckets using signedUrls (Supabase API)">
+    This is when you load the bucket with all the necessary files. One API call should be made per file.
+  </Step>
+  <Step title="Generate your document (Onedoc API)">
+    Onedoc renders your document from your loaded bucket!
+  </Step>
+</Steps>
+
 ### 1. Initiate document rendering
 
-In order to render a document, intiate rending with [api/docs/initiate](/api-reference/endpoint/initiates-a-documents-rendering).
-This step returns a list of signed buckets to which you should upload your assets' content.
+In order to render a document, intiate rendering with [api/docs/initiate](/api-reference/endpoint/initiates-a-documents-rendering).  <br/>
+This step returns a list of signed bucket URLs to which you should upload your assets' content. You should include:
+- an `ìndex.html` file that should include your bundled react code and/or raw html. All stylesheets or other asset imports should be done with relative paths. (MANDATORY)
+- stylesheets with a path matching the relative one in the `ìndex.html` (OPTIONAL)
+- all other assets such as images, logos etc. (OPTIONAL) <br/>
+**Make sure all imports are relative and make sure they match the paths you provide in the request body.** <br/>
+This query will return a list of SignedUrl, path, token triple.
 
 ### 2. Upload your assets to their respective buckets using signedUrls.
 
 Then, upload all your assets to the paths you the specified in the intiate using the returned signed Urls.
-Uploading an asset using a signed Url consists in sending a `PUT` request with the token and the asset. For further help, see .
+Uploading an asset using a signed URL consists in sending a `PUT` request with the token and the asset at [\{signedUrl\}/object/upload/sign/\{path\}](/api-reference/endpoint/load-bucket). <br/>
 Below is a helper function to upload assets to a bucket using a signed Url for <b>Node JS</b>. This implementation is specific to [supabase](https://www.npmjs.com/package/@supabase/storage-js?activeTab=code), specifically in our URL and path management.
 
 <CodeGroup>
@@ -103,3 +122,4 @@ try {
 
 ### 3. Generate your document by specifying your bucket identifier, auth and options.
 You can generate your document using  [api/docs/generate](/api-reference/endpoint/generates-a-pdf-from-a-specified-bucket).
+This step lets Onedoc know the bucket is loaded with the base html, assets (optionally) and that it is ready for rendering to .PDF. You the bucket, password and username are retrieved form the response of the first call to [api/docs/initiate](/api-reference/endpoint/initiates-a-documents-rendering).
