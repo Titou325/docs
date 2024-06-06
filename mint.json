@@ -25,6 +25,12 @@
   "feedback": {
     "thumbsRating": true
   },
+  "redirects": [
+    {
+      "source": "/:slug*",
+      "destination": "https://docs.fileforge.com/:slug*"
+    }
+  ],
   "favicon": "/favicon.svg",
   "colors": {
     "primary": "#ffffff",
